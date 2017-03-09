@@ -35,4 +35,13 @@ var gobal = {};
 
         return generateRandom(range, n, {}, []);
     };
+    
+        if( !n || isNaN(n) || !(n = Math.round(n)) ) return '';
+        
+        var result = '';
+        for(var i=0; i<n; i++){
+            result += this.toString();
+        }
+        return result;
+    }
 })(gobal);
