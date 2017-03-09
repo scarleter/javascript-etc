@@ -36,6 +36,7 @@ var gobal = {};
         return generateRandom(range, n, {}, []);
     };
     
+    String.prototype.repeatify = String.prototype.repeatify || function(n){
         if( !n || isNaN(n) || !(n = Math.round(n)) ) return '';
         
         var result = '';
