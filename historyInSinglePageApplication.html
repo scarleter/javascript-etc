@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>Document</title>
+  <link rel="shortcut icon" href="./favicon.ico">
 </head>
 <body>
     <ul>
@@ -13,31 +14,47 @@
     
     <script>
         var gobal = {};
-        ;(function(gobal){
-            gobal.historyManager = !!history.pushState && (function(){
+        ;(function(gobal, window){
+            //use pushState if pushState method exist.Otherwise, use hash instead.
+            gobal.history = !!history.pushState? (function(){
+                //listent to popstate, 
+                window.addEventListener("popstate", function(event){
+                    //event.state is null for now, wait for browsers to support!
+                    console.info(event.state);
+                    if(typeof event.state.callback == 'function'){
+                        var context = event.state.options.context || this;
+                        callback.apply(context, arguments);
+                    }
+                });
+                
                 return {
+                    //wrap the history.pushState method
                     pushState: function(frament, options){
-                        var searchFrament = getSearchFrament(frament);console.info(searchFrament);
-                        history.pushState({serchFrament: searchFrament, options: options}, 'null', searchFrament);
+                        var searchFrament = getSearchFrament(frament);
+                        history.pushState({options: options}, 'null', searchFrament);
                     },
+                    //wrap the history.replaceState method
                     replaceState: function(frament, options){
                         var searchFrament = getSearchFrament(frament);
-                        history.replaceState({serchFrament: searchFrament, options}, 'null', searchFrament);
+                        history.replaceState({options: options}, 'null', searchFrament);
                     }
                 }
                 
-                window.addEventListener("popstate", function(event){
-                    console.info(event.state);
-                });
                 
+                //give a url frament or string,return the search frament
                 function getSearchFrament(frament){
                     frament = frament || '';
                     var searchAndHash = frament.split('?')[1];
-                    return searchAndHash && searchAndHash.split("#")[0] || frament;
+                    return '?' + (searchAndHash && searchAndHash.split("#")[0] || frament);
                 }
+            })() : (function(){
+                return{
+                    //hash method.....
+                }
+                
             })();
             
-        })(gobal);
+        })(gobal, window);
         
     </script>
 </body>
