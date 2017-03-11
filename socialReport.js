@@ -1,17 +1,14 @@
-//socialReport.js
+//SocialReport.js
 
-//It need jQuery.
+//It is dependent on jQuery.
 //It has three subclassess: Data, vVew and Operation
-
-//View class deal with UI 
-//Operatioin class contain a pile of functions which help to calculate the date from the data class before render by view class
 
 ;(function($, window){
     window.SocialReport = function(){
         var SocialReport = {};
         
         //SocialReport.Data
-        //----------------
+        //-----------------
         
         //Data class is designed to get the facebook and google data by ajax.
         var Data = SocialReport.Data = {};
@@ -39,12 +36,42 @@
         //post data to server by ajax.
         Data.post = function(data, options){
             Data.ajax(data, options || '');
-        }
+        };
         
-        //View class
+        //update the whole data to server.
+        Data.put = function(data, options){
+            //use Data.post for now, do not figure out the best way to simulate RESTful api.
+            Data.post(data, options);
+        };
+        
+        //update the property of data to server.
+        Data.patch = function(data, options){
+            //use Data.post for now, do not figure out the best way to simulate RESTful api.
+            Data.post(data, options);
+        };
+        
+        //delete data from server by ajax simulate RESTful api.
+        Data.delete = function(data, options){
+            //use Data.post for now, do not figure out the best way to simulate RESTful api.
+            Data.post(data, options);
+        };
+        
+        //
+        
+        
+        
+        //SocialReport.View
+        //-----------------
+        
+        //View class deal with UI 
         var View = SocialReport.View = {};
         
-        //Operation class
+        
+        
+        //SocialReport.Operation
+        //----------------------
+        
+        //Operatioin class contain a pile of functions which help to calculate the date from the data class before render by view class
         var Operation = SocialReport.Operation = {};
         
         
