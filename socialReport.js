@@ -56,9 +56,6 @@
             Data.post(data, options);
         };
         
-        //
-        
-        
         
         //SocialReport.View
         //-----------------
@@ -74,7 +71,41 @@
         //Operatioin class contain a pile of functions which help to calculate the date from the data class before render by view class
         var Operation = SocialReport.Operation = {};
         
+        //get data size
+        Operation.getSize = function(data){
+            var d = data || {}, type = (typeof d).toLowerCase();
+            type = type === 'object'? (Operation._isArray(d)? 'array' : 'object') : type;
+            
+            switch(type){
+                case 'string': return d.length;break;
+                case 'array': return d.length;break;
+                case 'object': return Operation._getObjectSize(d);break;
+                default: return 0;
+            };
+            
+        };
         
+        //internal function which is to get the Object size
+        Operation._getObjectSize = function(Obj){
+            var size = 0, obj = Obj || {} ;
+            //Object.keys could not support under IE9
+            if(!!Object.keys){
+                size = Object.keys(obj).length;
+            }else{
+                for (var i in obj) {
+                    if (obj.hasOwnProperty(i)) {
+                        size++;
+                    }
+                }
+            }
+            return size; 
+        };
+        
+        //check Object is Array
+        Operation._isArray = function(Obj){
+            var obj = Obj || {};
+            return Object.prototype.toString.call(obj) === '[object Array]';
+        };
         
         return SocialReport;
     }();
