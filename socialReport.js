@@ -31,24 +31,14 @@
             });
         };
         
-        //get platform data from server by ajax.`type` can only be string or array.
-        //it would return in json.`platform` would be facebook by default.
-        Data.get = function(type, platform, options){
-            //make sure `type` is string or array
-            if(Object.prototype.toString.call( type ) !== '[object Array]' && typeof type !== 'string') return false;
-            platform = platform || 'facebook';
-            
-            Data.ajax({'type': type, 'platform': platform}, options || '');
-            
+        //get data from server by ajax.
+        Data.get = function(data, options){
+            Data.ajax(data, options || '');
         };
         
-        //normally not call this function because we cannot update the platform data.
-        Data.post = function(type, platform, options){
-            //make sure `type` is string or array
-            if(Object.prototype.toString.call( type ) !== '[object Array]' && typeof type !== 'string') return false;
-            platform = platform || 'facebook';
-            
-            Data.ajax({'type': type, 'platform': platform}, options || '');
+        //post data to server by ajax.
+        Data.post = function(data, options){
+            Data.ajax(data, options || '');
         }
         
         //View class
