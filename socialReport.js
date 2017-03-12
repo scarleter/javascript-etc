@@ -68,25 +68,38 @@
         //SocialReport.Operation
         //----------------------
         
-        //Operatioin class contain a pile of functions which help to calculate the date from the data class before render by view class
-        var Operation = SocialReport.Operation = {};
-        
-        //get data size
-        Operation.getSize = function(data){
-            var d = data || {}, type = (typeof d).toLowerCase();
-            type = type === 'object'? (Operation._isArray(d)? 'array' : 'object') : type;
-            
-            switch(type){
-                case 'string': return d.length;break;
-                case 'array': return d.length;break;
-                case 'object': return Operation._getObjectSize(d);break;
-                default: return 0;
-            };
-            
+        //Operatioin is a Abstract Data Type which define a pile of functions to help calculate the date from the data class before render by view class
+        var Operation = SocialReport.Operation = function(Data, Options){
+            this.data = Data || {};
+            this.options = Options || {};
         };
         
+        //get Data
+        Operation.prototype.getData = function(){
+            return this.data;
+        };
+        
+        //set Data
+        Operation.prototype.setData = function(Data){
+            return this.data = Data || {};    
+        };
+        
+        //get data size
+        Operation.prototype.getSize = function(){
+            var data = this.data || {}, type = (typeof data).toLowerCase();
+            type = type === 'object'? (Operation._isArray(data)? 'array' : 'object') : type;
+
+            switch(type){
+                case 'string': return data.length;break;
+                case 'array': return data.length;break;
+                case 'object': return Operation._getObjectSize(data);break;
+                default: return 0;
+            };
+
+        };
+
         //internal function which is to get the Object size
-        Operation._getObjectSize = function(Obj){
+        Operation.prototype._getObjectSize = function(Obj){
             var size = 0, obj = Obj || {} ;
             //Object.keys could not support under IE9
             if(!!Object.keys){
@@ -100,12 +113,13 @@
             }
             return size; 
         };
-        
-        //check Object is Array
-        Operation._isArray = function(Obj){
+
+        //internal function which check Object is Array
+        Operation.prototype._isArray = function(Obj){
             var obj = Obj || {};
             return Object.prototype.toString.call(obj) === '[object Array]';
         };
+        
         
         return SocialReport;
     }();
