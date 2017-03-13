@@ -84,6 +84,26 @@
             return this.data = Data || {};    
         };
         
+        //get dateRange
+        Operation.prototype.getDateRange = function(){
+            return this.data.dateRange || 0;
+        };
+        
+        //set dateRange
+        Operation.prototype.setDateRange = function(DateRange){
+            return this.data.dateRange = DateRange || 0;
+        };
+        
+        //calculate frequency
+        Operation.prototype.frequency = function(){
+            var dateRange = parseInt(this.data.dateRange), size = parseInt(this.getSize());
+            if(this.data.dateRange){
+                return Math.float(size / dateRange).toFixed(2);
+            }else{
+                return 0;
+            }
+        };
+        
         //get data size
         Operation.prototype.getSize = function(){
             var data = this.data || {}, type = (typeof data).toLowerCase();
