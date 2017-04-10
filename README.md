@@ -13,3 +13,6 @@ A repository for javascript execrise
 > * 获得canvas对象
 > * 加载图片到canvas对象里面
 > * 从canvas对象中获取base64数据
+
+## google.visualization.linechart.html
+It is a demo to show how to draw linechart and format the `hAxis`, `vAxis` and `tooltip`.Especially when you want to get something like '00:00' on the point of the line.
