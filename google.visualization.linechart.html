@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<body>
+    <section id="avgsessiondurationtimeline"></section>
+    
+    <script>
+        google.charts.load('current', {
+            packages: ['corechart', 'line']
+        });
+        google.charts.setOnLoadCallback(drawAvgSessionDuration);
+
+        var dataSource = JSON.parse('[["20170404","1898","37.290305584826136"],["20170405","1442","67.67128987517337"],["20170406","2353","62.14747131321717"],["20170407","3845","35.44005201560468"],["20170408","2338","50.23267750213858"],["20170409","3546","30.217992103778904"],["20170410","681","49.21879588839941"]]');
+
+        function drawAvgSessionDuration() {
+            var data = new google.visualization.DataTable(),
+                chart,
+                rowsArrayIn2D = [],
+                key,
+                dateFormaterInToolTip = new google.visualization.DateFormat({
+                    pattern: 'yyyy/M/d'
+                }),
+                durationFormaterInToolTip = new google.visualization.DateFormat({
+                    pattern: 'mm:ss'
+                }),
+                options = {
+                    width: '100%',
+                    height: 300,
+                    chartArea: {
+                        width: '100%'
+                    },
+                    hAxis: {
+                        format: 'yyyy/M/d',
+                        gridlines: {
+                            color: 'transparent'
+                        }
+                    },
+                    vAxis: {
+                        format: 'mm:ss',
+                        gridlines: {
+                            units: {
+                                hours: {
+                                    format: ['HH:mm', 'ha']
+                                },
+                            },
+                            color: 'transparent'
+                        }
+                    },
+                    colors: ['#058DC7'],
+                    lineWidth: 4,
+                    pointsVisible: true,
+                    legend: {
+                        position: 'top',
+                        textStyle: {
+                            fontSize: 12
+                        }
+                    }
+                };
+            data.addColumn('datetime', 'Time of Day');
+            data.addColumn('datetime', 'Avg. Session Duration');
+            for (key in dataSource) {
+                if (dataSource.hasOwnProperty(key)) {
+                    rowsArrayIn2D.push([new Date(dataSource[key][0].substring(0, 4) + ',' + dataSource[key][0].substring(4, 6) + ',' + dataSource[key][0].substring(6, 8)), new Date(parseInt(dataSource[key][2] * 1000))]);
+                }
+            }
+            data.addRows(rowsArrayIn2D);
+            //to format the date in tooltip
+            dateFormaterInToolTip.format(data, 0);
+            durationFormaterInToolTip.format(data, 1);
+            chart = new google.visualization.LineChart(document.getElementById('avgsessiondurationtimeline'));
+            chart.draw(data, options);
+        }
+
+    </script>
+</body>
+
+</html>
